@@ -1,6 +1,6 @@
 # igrep
 
-A tiny grep clone written in Rust. Searches for a query string in a file and prints matching lines.
+`A tiny grep clone written in Rust. Searches for a query string in a file and prints matching lines.`
 
 ## Usage
 
