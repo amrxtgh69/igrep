@@ -3,7 +3,8 @@ use std::fs;
 use std::process;
 use std::error::Error;
 
-use igrep::search;
+use igrep::{ search, search_case_insensitive };
+
 
 fn main() {
     let args : Vec<String> = env::args().collect();
@@ -24,16 +25,22 @@ fn main() {
 fn run(config: Config) -> Result<(), Box<dyn Error>>{
     let contents = fs::read_to_string(config.file_path)?;
 
+    let result = if config.ignore_case {
+        search_case_insensitive(&config.query, &contents)
+    } else {
+        search(&config.query, &contents)
+    };
 
-    for lines in search(&config.query, &contents) {
-        println!("{lines}");
+    for line in result {
+        println!("{line}");
     }
     Ok(())
 }
 
-struct Config {
-    query: String,
-    file_path: String,
+pub struct Config {
+    pub query: String,
+    pub file_path: String,
+    pub ignore_case: bool,
 }
 
 impl Config {
